@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>testtask</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+<body>
+  <!-- Задача 5. Додаток містить масив об’єктів (логін, пароль) --  інсуючі логіни і паролі. 
+    Користувач вводить логін і пароль, а програма повідомляє чи може користувач бути 
+    авторизованим (чи є він одним з масиву).
+ -->
+<div id="task5">
+   <div>
+    <input v-model="user_login" placeholder="enter login">
+   </div>
+   <div>
+    <input v-model="user_pass" placeholder="enter pass">
+   </div>
+   <div>
+    <button @click="user_test">Enter</button>
+   </div>
+</div>
+
+<script>
+const { createApp } = Vue;
+const app = createApp({
+  data() {
+    return {
+  user_login: null,
+  user_pass: null,
+  enter_keys: [
+      { login: "user1", password: "pass1" },
+      { login: "user2", password: "pass2" },
+      { login: "user3", password: "pass3" },
+  ]
+      };
+    },
+
+  methods: {
+    user_test() {
+  const foundUser = this.enter_keys.find(user => user.login === this.user_login && user.password === this.user_pass);
+  if (foundUser) {
+    alert('Welcome');
+  } else {
+    alert('Access denied');
+  }
+}
+  } 
+    
+}).mount('#task5');
+</script>
+</body>
+</html>
+
+ 

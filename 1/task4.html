@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>task4</title>
+        <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+</head>
+<body>
+    
+<!-- ======task4====== -->
+
+task4: <br>
+<div id="task4" class="bank">
+  <div>Cума на рахунку в банку: 
+    <span :class="balanceColor">{{amount_in_account}} грн.</span>
+  </div>
+  <label>Зарахувати на рахунок
+    <input type="number" v-model="recharge_account" @input="percentRechargeSum">
+    <button type="button" @click="rechargeAccount">Зарахувати</button>
+  </label>
+  <label>Зняти з рахунку
+    <input type="number" v-model="removed_account" @input="percentRemoveSum">
+    <button type="button" @click="removedAccount">Зняти</button>
+  </label>
+  <div>Відсотки за обслуговування:
+    <span>{{percent_summ}} грн.</span>
+  </div>
+  <hr>
+  <div>Сума в доларах:
+    <span>{{(amount_in_account / usd_rate).toFixed(2)}} USD</span>
+  </div>
+  <div>Сума в євро: 
+    <span>{{(amount_in_account / euro_rate).toFixed(2)}} EUR</span>
+  </div>
+</div>
+
+    <script>
+       
+     const{createApp} = Vue
+        const app = createApp ({
+                data() {
+                    return{
+                      amount_in_account: 0,
+                      recharge_account: null,
+                      removed_account: null,
+                      usd_rate: 38,
+                      euro_rate: 40,
+                      percent: 0.03,
+                      percent_summ:null,
+                    }
+                },
+                methods: {
+                        rechargeAccount() {
+                        if (this.recharge_account >= 0) {
+                            const recharge_with_percent = this.recharge_account - this.recharge_account * this.percent;
+                            this.amount_in_account += recharge_with_percent;
+                            this.recharge_account = null;
+                            this.removed_account = null;
+                            this.percent_summ = (this.recharge_account * this.percent).toFixed(2);
+                            this.isRecharge = true;
+                            this.isRemoved = false;
+                          }
+                        },
+                        removedAccount() {
+                        if (this.removed_account >= 0 && this.removed_account + (this.removed_account * this.percent) <= this.amount_in_account) {
+                            const removed_with_percent = this.removed_account - this.removed_account * this.percent;
+                            this.amount_in_account -= removed_with_percent;
+                            this.recharge_account = null;
+                            this.removed_account = null;
+                            this.percent_summ = (this.removed_account * this.percent).toFixed(2);
+                            this.isRecharge = false;
+                            this.isRemoved = true;
+                          } else {
+                            const availableAmount = this.amount_in_account-(this.amount_in_account * this.percent)
+                            alert(`недостатньо залишку на рахунку для зняття коштів разом з комісом. Доступна сума для зняття:${availableAmount}грн.`)
+                        }
+                        },
+                        percentRechargeSum() {
+                        this.percent_summ = (this.recharge_account * this.percent).toFixed(2);
+                        },
+                        percentRemoveSum() {
+                        this.percent_summ = (this.removed_account * this.percent).toFixed(2);
+                        },
+                    },
+                     computed: {
+                        balanceColor() {
+                          if (this.isRemoved) {
+                            return "balance-color-red";
+                          } else if (this.isRecharge) {
+                            return "balance-color-green";
+                          } else if (this.amount_in_account < 100) {
+                            return "balance-color-red";
+                          } else {
+                            return "balance-color-green";
+                          }
+                        },
+                      },
+                    
+}).mount('#task4');
+
+
+    </script>
+    <style>
+        .bank{
+            margin: 0 auto;
+            max-width: 500px;
+            border-radius: 15px;
+            border: 2px solid rgba(47, 46, 46, 0.551);
+            padding: 10px;
+            background-color: #96bb80de;
+            display: flex;
+            flex-direction: column;
+ 
+        }
+        
+        .balance-color-red{
+            color: red;
+            font-weight: 300;
+        }
+         .balance-color-green{
+            color: green;
+            font-weight: bold;
+        }
+    </style>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>task2</title>
+        <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+</head>
+<body>
+    
+
+<!-- Задача 2. Вводиться номер місяця. 
+    Автоматично виводити рекомендований одяг 
+    (зима – пальто, літо – шорти ….). 
+    Також автоматично виводити зображення 
+    з відповідним зображенням лісу 
+    (зима – ліс зі снігом, осінь – жовтий ліс, …).
+ -->
+  <div id="task2" :style="{display: 'flex', flex-direction: 'column'}">
+    <label>
+        enter monath number:
+        <input type="number" v-model="monthNum" placeholder="monath number" min="1" max="12">
+    </label><br>
+    <span>{{getClothes()}}</span> <br>
+    <img :src="getImages()" :style="{ width: '250px' }" />
+</div>
+
+<script>
+    const { createApp } = Vue
+    const app = createApp({
+        data() {
+            return {
+                monthNum:null,
+                winter: {
+                    dress: 'пальто',
+                    img_width: "250",
+                    image: 'https://www.varta-guide.de/wp-content/uploads/2020/12/AdobeStock_133843747-Kopie.jpeg'
+                },
+                spring:{
+                    dress: 'сорочка',
+                    img_width: "250",
+                    image:  'https://images.unsplash.com/photo-1621351159305-5a9dc76b2830?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8c3ByaW5nJTIwZm9yZXN0fGVufDB8fDB8fHww&w=1000&q=80'              
+                },
+                summer: {
+                    dress: 'шорти',
+                    img_width: "250",
+                    image: 'https://thumbs.dreamstime.com/b/clean-lake-green-spring-summer-forest-tranquil-blue-sunny-sky-33453556.jpg'
+                },
+                autumn: {
+                    dress: 'куртка',
+                    img_width: "250",
+                    image:'https://pranadi.co.uk/wp-content/uploads/Autumn-Visualisation.jpg'
+                }
+            }
+        },
+        methods:{
+        getClothes() {
+            if (this.monthNum === 12 || this.monthNum === 1 || this.monthNum === 2) {
+                return this.winter.dress;
+            } else if (this.monthNum >= 3 && this.monthNum <= 5) {
+                return this.spring.dress;
+            } else if (this.monthNum >= 6 && this.monthNum <= 8) {
+                return this.summer.dress;
+            } else if (this.monthNum >= 9 && this.monthNum <= 11) {
+                return this.autumn.dress;
+            }  
+        },
+
+                
+        getImages() {
+            const clothes = this.getClothes();
+            switch (clothes) {
+                case this.winter.dress:
+                    return this.winter.image;
+                case this.spring.dress:
+                    return this.spring.image;
+                case this.summer.dress:
+                    return this.summer.image;
+                case this.autumn.dress:
+                    return this.autumn.image;
+                default:
+                    return '';
+                }           
+                
+        }}
+    })
+
+    app.mount('#task2')
+</script>
+</body>
+</html>
+ 
+
