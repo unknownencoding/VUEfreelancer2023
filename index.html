@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+<body>
+    <!-- Задача 1. Вводиться кількість пасажирів. Вивести:
+скільки потрібно автобусів (кожен автобус на 20 місць)
+скільки пляшок води (кожному пасажиру 2 пляшки)
+скільки бутербродів (кожному пасажиру 3 бутерброди)
+ -->
+    <div id="task1">task1: <br>
+        <label>
+            кількість пасажирів:
+            <input type = "number" v-model="passengers_num" placeholder="quantyty passengers">
+        </label>
+        <div>кількість автобусів:
+            <span>{{ Math.ceil(passengers/busse_seat)}}</span>
+        </div>
+        <div>кількість пляшок з водою:
+            <span>{{passengers*water_bottle_portion}}</span>
+        </div>
+        <div>кількість бутербродів:
+            <span>{{passengers*sandviches_portion}}</span>
+        </div>
+       
+    </div>
+    <!-- ==================== -->
+    
+     
+    <hr>
+    <!-- ========task3=========== -->
+    task3: <br>
+    <div id="task3">
+        <button id ='btn' type="button" @click="randomNum">show random number : </button>
+                <span>{{randNum}}</span>
+    </div>
+
+     <script>
+        const{createApp} = Vue
+        const app = createApp({
+                data() {
+                    return{
+                    passengers_num:null,
+                    busse_seat:20,
+                    water_bottle_portion:2,
+                    sandviches_portion:3,
+                    }
+                },
+
+        })
+ 
+        app.mount('#task1')
+        
+
+    // ============task3================
+//   Задача 3. Задано початок та кінець діапазону. 
+//     При натисканні на кнопку випадковим чином генерувати значення 
+//     з вказаного діапазону та відображати його. 
+        createApp({
+                data() {
+                    return{
+                        min_value:'1',
+                        max_value:'100',
+                        randNum: null,
+                    }
+
+                },
+                methods:{
+                    randomNum(){
+                    
+                    this.randNum = Math.floor(Math.random() * (parseInt(this.max_value) - parseInt(this.min_value) + 1)) + parseInt(this.min_value);
+           
+                    
+                        }
+                }
+            }).mount('#task3')
+
+   
+
+        </script>
+
+
+        
+
+ 
+</body>
+</html>
